@@ -1,0 +1,125 @@
+package com.example.eventcoord.ui.screens.login
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
+import com.example.eventcoord.R
+
+@Composable
+fun LoginScreen(onLoginSuccess: () -> Unit, onForgotPassword: () -> Unit, onRegister: () -> Unit) {
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        val logogris = painterResource(R.drawable.eventcoord_logo_gris) // Imagen del logo
+        var email by remember { mutableStateOf("") } // Guardamos lo que el usuario escribe
+        var password by remember { mutableStateOf("") } // Guardamos lo que el usuario escribe
+        var hide by remember { mutableStateOf(true) } // Mostrar/Ocultar contraseña
+        var isRemember by remember { mutableStateOf(false) } // Recordar usuario
+
+        Column( // Apilamos para organizar los elementos de forma vertical
+            modifier = Modifier
+                .fillMaxSize() //
+                .padding(innerPadding) // Padding del Scafold
+                .padding(32.dp), // Margen para que no choque con los bordes
+            horizontalAlignment = Alignment.CenterHorizontally, // Centra el contenido
+            verticalArrangement = Arrangement.Center // Centra el contenido
+        ) {
+            Image(
+                painter = logogris,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .width(280.dp)
+                    .height(280.dp)
+                    .padding(8.dp)
+            )
+            Spacer(modifier = Modifier.height(32.dp)) // Espacios para una mejor presentacion
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it }, // Actualiza la variable cuando el usuario escribe
+                label = { Text("Correo Electrónico") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Contraseña") },
+                visualTransformation = if (hide) PasswordVisualTransformation() else VisualTransformation.None, // Condicion para Mostras/Ocultar contraseña
+                trailingIcon = {
+                    IconButton(onClick = { hide = !hide }) {
+                        Icon(
+                            imageVector = if (hide) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                            contentDescription = if (hide) "Mostrar Contraseña" else "Ocultar Contraseña"
+                        )
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween // Separa boton de checkbox y texto
+            ) {
+                Row( //CheckBox y texto clickeable
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .clickable { isRemember = !isRemember } // Texto clickeable
+                        .padding(vertical = 8.dp)
+                ) {
+                    Checkbox(
+                        checked = isRemember,
+                        onCheckedChange = null
+                    )
+                    Text(
+                        text = "Recordarme",
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
+                }
+                TextButton(
+                    onClick = onForgotPassword
+                ) {
+                    Text(
+                        text = "Olvidaste tu contraseña?",
+                        fontSize = 16.sp
+                    )
+                }
+            }
+            Button( // Botón de Ingreso
+                onClick = onLoginSuccess,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Iniciar Sesión")
+            }
+            Spacer(modifier = Modifier.height(32.dp)) // Espacios para una mejor presentacion
+            Text (
+                text = "No tienes una cuenta? Crea una",
+                fontSize = 16.sp,
+                lineHeight = 16.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 20.dp)
+            )
+            Button( // Botón de Registro
+                onClick = onRegister,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Crear Cuenta")
+            }
+        }
+    }
+}
