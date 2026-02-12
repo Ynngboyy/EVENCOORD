@@ -149,11 +149,6 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onForgotPassword: () -> Unit, onRegi
                     )
                 }
             }
-            //Button( // Botón de Registro
-              //  onClick = onRegister,
-                //modifier = Modifier.fillMaxWidth()
-            //) {
-              //  Text("Crear Cuenta")
-            }
+        }
     }
 }
