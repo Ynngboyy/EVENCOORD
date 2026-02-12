@@ -10,13 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -49,17 +53,25 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onForgotPassword: () -> Unit, onRegi
                     .padding(8.dp)
             )
             Spacer(modifier = Modifier.height(32.dp)) // Espacios para una mejor presentacion
-            OutlinedTextField(
+            TextField(
                 value = email,
                 onValueChange = { email = it }, // Actualiza la variable cuando el usuario escribe
                 label = { Text("Correo Electrónico") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next),
+                singleLine = true,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
+                )
             )
             Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
+            TextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Contraseña") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
                 visualTransformation = if (hide) PasswordVisualTransformation() else VisualTransformation.None, // Condicion para Mostras/Ocultar contraseña
                 trailingIcon = {
                     IconButton(onClick = { hide = !hide }) {
@@ -69,8 +81,14 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onForgotPassword: () -> Unit, onRegi
                         )
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
+                )
             )
+            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -100,6 +118,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onForgotPassword: () -> Unit, onRegi
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(16.dp))
             Button( // Botón de Ingreso
                 onClick = onLoginSuccess,
                 modifier = Modifier.fillMaxWidth()
@@ -107,19 +126,34 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onForgotPassword: () -> Unit, onRegi
                 Text("Iniciar Sesión")
             }
             Spacer(modifier = Modifier.height(32.dp)) // Espacios para una mejor presentacion
-            Text (
-                text = "No tienes una cuenta? Crea una",
-                fontSize = 16.sp,
-                lineHeight = 16.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 20.dp)
-            )
-            Button( // Botón de Registro
-                onClick = onRegister,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Crear Cuenta")
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(vertical = 8.dp)
+            ){
+                Text (
+                    text = "No tienes una cuenta?",
+                    fontSize = 16.sp,
+                    lineHeight = 16.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 20.dp)
+                )
+                TextButton(
+                    onClick = onRegister
+                ) {
+                    Text(
+                        text = "Crea una",
+                        fontSize = 16.sp,
+                        lineHeight = 16.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 20.dp)
+                    )
+                }
             }
-        }
+            //Button( // Botón de Registro
+              //  onClick = onRegister,
+                //modifier = Modifier.fillMaxWidth()
+            //) {
+              //  Text("Crear Cuenta")
+            }
     }
 }
