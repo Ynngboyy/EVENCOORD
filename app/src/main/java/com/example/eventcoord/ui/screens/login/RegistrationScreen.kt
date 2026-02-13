@@ -27,7 +27,7 @@ import com.example.eventcoord.R
 
 @Composable
 fun RegistrationScreen(onBackClick: () -> Unit) {
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(modifier = Modifier.fillMaxSize(), containerColor = MaterialTheme.colorScheme.background) { innerPadding ->
         val logogris = painterResource(R.drawable.eventcoord_logo_gris) // Imagen de Logo
         val testNotification = remember { mutableStateOf(false)}
         val notificationProblem = remember { mutableStateOf(false)}
